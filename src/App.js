@@ -1,19 +1,9 @@
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-black pt-5 p-4 relative flex flex-col h-screen overflow-y-auto snap-y snap-mandatory">
+      <div className="w-24 h-auto fixed">
+        <img src="/GX-logo.png" alt="growthx-logo" className="object-contain" />
+      </div>
     </div>
   );
 }
