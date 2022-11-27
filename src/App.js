@@ -9,6 +9,8 @@ function App() {
   const [widthArray, setWidthArray] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [selectBlock, setSelectedBlock] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [roleActive, setRoleActive] = useState("");
+  const [goals, setGoals] = useState([]);
 
   const topWidthBar = widthArray.reduce((partialSum, a) => partialSum + a, 0);
 
@@ -33,6 +35,8 @@ function App() {
   const lastNameInputRef = useRef(null);
   const inputRef = useRef(null);
   const roleRef = useRef(null);
+  const goalsRef = useRef(null);
+  const emailInputRef = useRef(null);
 
   function handleSelectBlockClick(item) {
     setSelectedBlock(false);
@@ -42,6 +46,56 @@ function App() {
       block: "center",
     });
   }
+
+  const rolesData = [
+    {
+      id: "A",
+      name: "Founder or CXO",
+    },
+    {
+      id: "B",
+      name: "Product Team",
+    },
+    {
+      id: "C",
+      name: "Marketing Team",
+    },
+    {
+      id: "D",
+      name: "VC",
+    },
+    {
+      id: "E",
+      name: "Other",
+    },
+  ];
+
+  const goalData = [
+    {
+      id: "A",
+      name: "Get hired",
+    },
+    {
+      id: "B",
+      name: "Get promoted",
+    },
+    {
+      id: "C",
+      name: "Connect with like-minded people",
+    },
+    {
+      id: "D",
+      name: "Structured approach to growth",
+    },
+    {
+      id: "E",
+      name: "Build a growth team",
+    },
+  ];
+
+  const goalCount =
+    goals.length === 2 ? false : goals.length === 1 ? "1 more" : "2";
+
   return (
     <div className="bg-black pt-5 p-4 relative flex flex-col h-screen overflow-y-auto snap-y snap-mandatory">
       {!submitScreen && (
@@ -243,6 +297,161 @@ function App() {
                 tick={true}
                 action={() => {
                   roleRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                }}
+              />
+            </div>
+          </div>
+          <div
+            className="flex justify-center items-center flex-1 text-white px-6 md:px-0 min-h-screen snap-center"
+            ref={goalsRef}
+            tabIndex="0"
+          >
+            <div className="w-full max-w-2xl relative">
+              <span className="absolute -left-8 md:-left-10 top-1 md:top-0">
+                5 →
+              </span>
+              <p className="text-xl md:text-2xl mb-2">
+                {formValues.firstName
+                  ? `${formValues.firstName}, what's`
+                  : `What's`}{" "}
+                your professional goal for the next 12 months? *
+              </p>
+              <br />
+              {goalCount && <p className="text-sm mb-2">Choose {goalCount}</p>}
+              <div className="space-y-2">
+                {goalData.map((goal) => (
+                  <div
+                    key={goal.id}
+                    onClick={() => {
+                      if (goals.includes(goal.name)) {
+                        setGoals(goals.filter((item) => item !== goal.name));
+                      } else {
+                        setGoals([...goals, goal.name]);
+                      }
+                    }}
+                    className={`${
+                      goals.includes(goal.name) ? "opacity-100" : "opacity-70"
+                    } flex items-center justify-between py-1 px-2 border border-white rounded-md bg-[#211f1f] cursor-pointer hover:bg-[#4D4D4D] w-full md:max-w-[55%]`}
+                  >
+                    <p className="text-base md:text-xl space-x-2">
+                      <span
+                        className={`${
+                          goals.includes(goal.name)
+                            ? "bg-white text-black"
+                            : "bg-black"
+                        } px-[6px] pt-1 pb-0.5 border border-white text-sm`}
+                      >
+                        {goal.id}
+                      </span>
+                      <span>{goal.name}</span>
+                    </p>
+                    {goals.includes(goal.name) && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {errorMsg.goals && goalCount !== false && <ErrorMsg />}
+              <br />
+              <Button
+                tick={true}
+                action={() => {
+                  emailInputRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                  emailInputRef.current.focus({
+                    preventScroll: true,
+                  });
+                }}
+              />
+            </div>
+          </div>
+          <div
+            className="flex justify-center items-center flex-1 text-white px-6 md:px-0 min-h-screen snap-center"
+            ref={roleRef}
+            tabIndex="0"
+          >
+            <div className="w-full max-w-2xl relative">
+              <span className="absolute -left-8 md:-left-10 top-1 md:top-0">
+                4 →
+              </span>
+              <p className="text-xl md:text-2xl mb-2">
+                Your role in your company? *
+              </p>
+              <p className="text-base md:text-xl opacity-70">
+                We want to understand how you spend your time right now.
+              </p>
+              <br />
+              <p className="text-base md:text-xl opacity-70 italic">
+                [ 🔴DEVELOPER NOTICE: Options in the questions ahead depend on
+                this question's response/s. ]
+              </p>
+              <br />
+              <div className="space-y-2">
+                {rolesData.map((role) => (
+                  <div
+                    key={role.id}
+                    onClick={() => {
+                      if (roleActive === role.name) {
+                        setRoleActive(null);
+                      } else {
+                        setRoleActive(role.name);
+                      }
+                    }}
+                    className={`${
+                      roleActive === role.name ? "opacity-100" : "opacity-70"
+                    } flex items-center justify-between py-1 px-2 border border-white rounded-md bg-[#211f1f] cursor-pointer hover:bg-[#4D4D4D] w-full md:max-w-[250px]`}
+                  >
+                    <p className="text-base md:text-xl space-x-2">
+                      <span
+                        className={`${
+                          roleActive === role.name
+                            ? "bg-white text-black"
+                            : "bg-black"
+                        } px-[6px] pt-1 pb-0.5 border border-white text-sm`}
+                      >
+                        {role.id}
+                      </span>
+                      <span>{role.name}</span>
+                    </p>
+                    {roleActive === role.name && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {errorMsg.role && roleActive === "" && <ErrorMsg />}
+              <br />
+              <Button
+                tick={true}
+                action={() => {
+                  goalsRef.current.scrollIntoView({
                     behavior: "smooth",
                     block: "center",
                   });
