@@ -282,6 +282,9 @@ function App() {
           ></div>
         </>
       )}
+      <div className="w-24 h-auto fixed">
+        <img src="/GX-logo.png" alt="growthx-logo" className="object-contain" />
+      </div>
       {!submitScreen && (
         <>
           <div className="flex justify-center items-center flex-1 text-white px-6 md:px-0 min-h-screen snap-center">
@@ -781,9 +784,15 @@ function App() {
           </div>
         </>
       )}
-      <div className="w-24 h-auto fixed">
-        <img src="/GX-logo.png" alt="growthx-logo" className="object-contain" />
-      </div>
+      {submitScreen && (
+        <div className="flex justify-center items-center flex-1 text-white px-6 md:px-0 min-h-screen snap-center">
+          <div className="w-full max-w-2xl">
+            <p className="text-xl md:text-2xl">
+              All done! Thanks for your time.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
